@@ -1,0 +1,31 @@
+//sets up the transformation matrix
+    glm::vec3 scale(1.0f, 1.0f, 1.0f);
+    glm::vec3 position(0.0f, 0.0f, 0.0f);
+    float rotation = 0;
+    glm::mat4 transformationMatrix = glm::scale(scale);
+    glm::vec3 zAxis = glm::vec3(0.0f, 0.0f, 1.0f);
+    transformationMatrix = glm::rotate(transformationMatrix, glm::radians(rotation), zAxis);
+
+    //sets up the view matrix
+    glm::vec3 eye = glm::vec3(0.0f, 0.0f, 20.0f);
+    glm::vec3 center = glm::vec3(0.0f, 0.0f, 0.0f);
+    glm::vec3 up = glm::vec3(0.0f, 1.0f, 0.0f);
+    glm::mat4 viewMatrix = glm::lookAt(eye, center, up);
+
+    //sets up the projection matrix
+    float projectionWidth = 1920.0f;
+    float windowAspect = ((float)myWindow.getFramebufferWidth() / (float)myWindow.getFramebufferHeight());
+    float projectionHeight = projectionWidth / windowAspect;
+    
+    float left = -projectionWidth / 2.0f;
+    float right = projectionWidth / 2.0f;
+    float bottom = -projectionHeight / 2.0f;
+    float top = projectionHeight / 2.0f;
+    float near = 0.0001f;
+    float far = 10000.0f;
+
+    glm::mat4 projectionMatrix = glm::ortho(left, right, bottom, top, near, far);
+
+    //sets up perspective matrix
+    float fov = 45.0f;
+    glm::mat4 perspectiveMatrix = glm::perspective(fov, windowAspect, near, far);
