@@ -1,4 +1,6 @@
-#include "graphics.hpp"
+#include "camera.hpp"
+#include <glm/glm.hpp>
+#include <glm/gtx/transform.hpp>
 /*In this modified code, the Camera class is responsible for managing the camera position,
 orientation, and providing the view matrix through the getViewMatrix function.*/
 Camera::Camera(const glm::vec3& position, const glm::vec3& target, const glm::vec3& up)

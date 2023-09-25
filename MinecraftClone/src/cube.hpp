@@ -8,5 +8,6 @@ public:
 	Cube(glm::vec3 position);
 	~Cube();
 	GLuint getVAO() const;
-
+	GLuint getVBO() const;
+	GLuint getEBO() const;
 };

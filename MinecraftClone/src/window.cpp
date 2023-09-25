@@ -36,7 +36,9 @@ Window::Window(int majorVersion, int minorVersion)
     glfwGetWindowSize(window, &windowed_width, &windowed_height);
 
     setInputCallbacks();
-    glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+
+    // Uncomment to disable cursor on startup (used for debugging)
+    //glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 
     glfwGetFramebufferSize(window, &framebufferWidth, &framebufferHeight);
 
