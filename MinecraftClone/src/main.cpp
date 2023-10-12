@@ -92,7 +92,7 @@ int main() {
         glfwSwapBuffers(myWindow.getWindowPointer());
         glfwPollEvents();
     }
-   
+    // This comment was added from laptop. Testing git.
 	return 0;
 }
 void catchGLError(Window* window) {
