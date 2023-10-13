@@ -130,11 +130,18 @@ int main() {
         glBindTexture(GL_TEXTURE_2D, texture2);
         shaderProgram.bind();
 
-        glm::mat4 trans = glm::mat4(1.0f);
-        trans = glm::rotate(trans, glm::radians(90.f), glm::vec3(0.0, 0.0, 1.0));
-        trans = glm::scale(trans, glm::vec3(0.5));
+        glm::mat4 model = glm::mat4(1.0f);
+        model = glm::rotate(model, glm::radians(-55.0f), glm::vec3(1.0f, 0.0f, 0.0f));
 
-        shaderProgram.uploadMat4("transform", trans);
+        glm::mat4 view = glm::mat4(1.0f);
+        view = glm::translate(view, glm::vec3(0.0f, 0.0f, -3.0f));
+
+        glm::mat4 projection = glm::mat4(1.0f);
+        projection = glm::perspective(glm::radians(45.0f), (float) myWindow.getFramebufferWidth() / (float) myWindow.getFramebufferHeight(), 0.1f, 100.0f);
+
+        shaderProgram.uploadMat4("model", model);
+        shaderProgram.uploadMat4("view", view);
+        shaderProgram.uploadMat4("projection", projection);
 
 
         glBindVertexArray(VAO);
