@@ -142,7 +142,18 @@ int main() {
     shaderProgram.uploadInt("texture1", 0);
     shaderProgram.uploadInt("texture2", 1);
 
-    
+    glm::vec3 cubePositions[] = {
+        glm::vec3(0.0f,  0.0f,  0.0f),
+        glm::vec3(1.0f,  0.0f,  0.0f),
+        glm::vec3(-1.0f,  0.0f,  0.0f),
+        glm::vec3(-1.0f,  0.0f,  -1.0f),
+        glm::vec3(0.0f,  0.0f,  -1.0f),
+        glm::vec3(1.0f,  0.0f,  -1.0f),
+        glm::vec3(-1.0f,  0.0f,  1.0f),
+        glm::vec3(0.0f,  0.0f,  1.0f),
+        glm::vec3(1.0f,  0.0f,  1.0f),
+        glm::vec3(4.0f,  4.0f,  -4.0f),
+    };
 
     //Main render loop
     glEnable(GL_DEPTH_TEST);
@@ -165,7 +176,7 @@ int main() {
         view = glm::translate(view, glm::vec3(0.0f, 0.0f, -3.0f));
 
         glm::mat4 projection = glm::mat4(1.0f);
-        projection = glm::perspective(glm::radians(45.0f), (float) myWindow.getFramebufferWidth() / (float) myWindow.getFramebufferHeight(), 0.1f, 100.0f);
+        projection = glm::perspective(glm::radians(60.0f), (float) myWindow.getFramebufferWidth() / (float) myWindow.getFramebufferHeight(), 0.1f, 100.0f);
 
         shaderProgram.uploadMat4("model", model);
         shaderProgram.uploadMat4("view", view);
@@ -173,7 +184,16 @@ int main() {
 
 
         glBindVertexArray(VAO);
-        glDrawArrays(GL_TRIANGLES, 0, 36);
+        for (unsigned int i = 0; i < 10; i++)
+        {
+            glm::mat4 model = glm::mat4(1.0f);
+            model = glm::translate(model, cubePositions[i]);
+            float angle = 20.0f * i;
+            //model = glm::rotate(model, glm::radians(angle), glm::vec3(1.0f, 0.3f, 0.5f));
+            shaderProgram.uploadMat4("model", model);
+
+            glDrawArrays(GL_TRIANGLES, 0, 36);
+        }
         
         glBindVertexArray(0);
         // Swap buffers and poll events, raise errors
