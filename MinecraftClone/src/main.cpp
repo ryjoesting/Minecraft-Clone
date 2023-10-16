@@ -4,16 +4,14 @@
 #include <unordered_map>
 #include <glm/glm.hpp>
 #include <glm/gtx/transform.hpp>
+#include <glm/gtc/type_ptr.hpp>
+#include "vendor/stb_image/stb_image.h"
 #include "input.hpp"
 #include "shader.hpp"
 #include "window.hpp"
-#include <glm/gtc/type_ptr.hpp>
-#include "cube.hpp"
-#include "vendor/stb_image/stb_image.h"
+#include "camera.hpp"
 
 std::unordered_map<int, std::function<void()>> Input::keyMap;
-
-void catchGLError(Window* window);
 
 int main() {
     Window myWindow(3,3); //defaults to OpenGL core 3.3
@@ -188,8 +186,6 @@ int main() {
         {
             glm::mat4 model = glm::mat4(1.0f);
             model = glm::translate(model, cubePositions[i]);
-            float angle = 20.0f * i;
-            //model = glm::rotate(model, glm::radians(angle), glm::vec3(1.0f, 0.3f, 0.5f));
             shaderProgram.uploadMat4("model", model);
 
             glDrawArrays(GL_TRIANGLES, 0, 36);
@@ -197,40 +193,10 @@ int main() {
         
         glBindVertexArray(0);
         // Swap buffers and poll events, raise errors
-        catchGLError(&myWindow);
+        myWindow.catchGLError();
         glfwSwapBuffers(myWindow.getWindowPointer());
         glfwPollEvents();
     }
-    // This comment was added from laptop. Testing git.
 	return 0;
 }
-void catchGLError(Window* window) {
-    GLenum errorCode;
-    while ((errorCode = glGetError()) != GL_NO_ERROR) {
-        switch (errorCode) {
-        case GL_INVALID_ENUM:
-            std::cout << "OpenGL Error: GL_INVALID_ENUM" << std::endl;
-            break;
-        case GL_INVALID_VALUE:
-            std::cout << "OpenGL Error: GL_INVALID_VALUE" << std::endl;
-            break;
-        case GL_INVALID_OPERATION:
-            std::cout << "OpenGL Error: GL_INVALID_OPERATION" << std::endl;
-            break;
-        case GL_INVALID_FRAMEBUFFER_OPERATION:
-            std::cout << "OpenGL Error: GL_INVALID_FRAMEBUFFER_OPERATION" << std::endl;
-            break;
-        case GL_OUT_OF_MEMORY:
-            std::cout << "OpenGL Error: GL_OUT_OF_MEMORY" << std::endl;
-            break;
-        default:
-            std::cout << "OpenGL Error: Unknown error code" << std::endl;
-            break;
-        }
-    }
 
-    // Optionally, you can set a flag to close the window if an error occurred:
-    if (errorCode != GL_NO_ERROR) {
-        glfwSetWindowShouldClose(window->getWindowPointer(), GL_TRUE);
-    }
-}

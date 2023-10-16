@@ -1,47 +1,35 @@
 #include "camera.hpp"
-#include <glm/glm.hpp>
-#include <glm/gtx/transform.hpp>
-/*In this modified code, the Camera class is responsible for managing the camera position,
-orientation, and providing the view matrix through the getViewMatrix function.*/
-Camera::Camera(const glm::vec3& position, const glm::vec3& target, const glm::vec3& up)
-    : position(position), target(target), up(up), yaw(0.0f), pitch(0.0f) {
-    updateViewMatrix();
+// constructor with vectors
+Camera::Camera(glm::vec3 position = glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3 up = glm::vec3(0.0f, 1.0f, 0.0f), float yaw = YAW, float pitch = PITCH) : Front(glm::vec3(0.0f, 0.0f, -1.0f)), MovementSpeed(SPEED), MouseSensitivity(SENSITIVITY), Zoom(ZOOM)
+{
+    Position = position;
+    WorldUp = up;
+    Yaw = yaw;
+    Pitch = pitch;
+    updateCameraVectors();
 }
-
-void Camera::rotate(float deltaX, float deltaY) {
-    float sensitivity = 0.2f; // Adjust this value to control the camera rotation speed
-
-    // Calculate the change in yaw (horizontal rotation)
-    float yawOffset = deltaX * sensitivity;
-
-    // Calculate the change in pitch (vertical rotation)
-    float pitchOffset = deltaY * sensitivity;
-
-    // Update the camera's yaw and pitch
-    yaw += yawOffset;
-    pitch += pitchOffset;
-
-    // Clamp the pitch to avoid over-rotation (optional)
-    /*float maxPitch = 89.0f;
-    if (pitch > maxPitch)
-        pitch = maxPitch;
-    else if (pitch < -maxPitch)
-        pitch = -maxPitch;*/
-
-    // Update the target position based on the new orientation
+// constructor with scalar values
+Camera::Camera(float posX, float posY, float posZ, float upX, float upY, float upZ, float yaw, float pitch) : Front(glm::vec3(0.0f, 0.0f, -1.0f)), MovementSpeed(SPEED), MouseSensitivity(SENSITIVITY), Zoom(ZOOM)
+{
+    Position = glm::vec3(posX, posY, posZ);
+    WorldUp = glm::vec3(upX, upY, upZ);
+    Yaw = yaw;
+    Pitch = pitch;
+    updateCameraVectors();
+}
+glm::mat4 Camera::GetViewMatrix()
+{
+    return glm::lookAt(Position, Position + Front, Up);
+}
+void Camera::updateCameraVectors()
+{
+    // calculate the new Front vector
     glm::vec3 front;
-    front.x = cos(glm::radians(yaw)) * cos(glm::radians(pitch));
-    front.y = sin(glm::radians(pitch));
-    front.z = sin(glm::radians(yaw)) * cos(glm::radians(pitch));
-    target = glm::normalize(front);
-    
-    // Update the view matrix
-    updateViewMatrix();
-}
-
-glm::mat4 Camera::getViewMatrix() const {
-    return viewMatrix;
-}
-void Camera::updateViewMatrix() {
-    viewMatrix = glm::lookAt(position, target, up);
+    front.x = cos(glm::radians(Yaw)) * cos(glm::radians(Pitch));
+    front.y = sin(glm::radians(Pitch));
+    front.z = sin(glm::radians(Yaw)) * cos(glm::radians(Pitch));
+    Front = glm::normalize(front);
+    // also re-calculate the Right and Up vector
+    Right = glm::normalize(glm::cross(Front, WorldUp));  // normalize the vectors, because their length gets closer to 0 the more you look up or down which results in slower movement.
+    Up = glm::normalize(glm::cross(Right, Front));
 }

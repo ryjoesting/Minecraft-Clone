@@ -36,6 +36,8 @@ public:
 	void setMousePosX(double x);
 	void setMousePosY(double y);
 
+	void catchGLError();
+
 	GLFWwindow* getWindowPointer() const;
 	const GLFWvidmode* getVidModePointer() const;
 	GLFWmonitor* getMonitorPointer() const;

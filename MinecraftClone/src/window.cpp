@@ -131,3 +131,33 @@ void Window::setMousePosX(double x) {
 void Window::setMousePosY(double y) {
     mousePos_y = y;
 }
+void Window::catchGLError() {
+    GLenum errorCode;
+    while ((errorCode = glGetError()) != GL_NO_ERROR) {
+        switch (errorCode) {
+        case GL_INVALID_ENUM:
+            std::cout << "OpenGL Error: GL_INVALID_ENUM" << std::endl;
+            break;
+        case GL_INVALID_VALUE:
+            std::cout << "OpenGL Error: GL_INVALID_VALUE" << std::endl;
+            break;
+        case GL_INVALID_OPERATION:
+            std::cout << "OpenGL Error: GL_INVALID_OPERATION" << std::endl;
+            break;
+        case GL_INVALID_FRAMEBUFFER_OPERATION:
+            std::cout << "OpenGL Error: GL_INVALID_FRAMEBUFFER_OPERATION" << std::endl;
+            break;
+        case GL_OUT_OF_MEMORY:
+            std::cout << "OpenGL Error: GL_OUT_OF_MEMORY" << std::endl;
+            break;
+        default:
+            std::cout << "OpenGL Error: Unknown error code" << std::endl;
+            break;
+        }
+    }
+
+    // Optionally, you can set a flag to close the window if an error occurred:
+    if (errorCode != GL_NO_ERROR) {
+        glfwSetWindowShouldClose(this->getWindowPointer(), GL_TRUE);
+    }
+}
