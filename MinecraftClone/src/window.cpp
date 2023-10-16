@@ -12,7 +12,8 @@ Window::Window(int majorVersion, int minorVersion)
     monitor(nullptr),
     mode(nullptr),
     window(nullptr),
-    mousePos_x(0), mousePos_y(0)
+    mousePos_x(0), mousePos_y(0), 
+    deltaTime(0.0f), lastFrame(0.0f)
     {
 
     glfwInit();
@@ -62,6 +63,15 @@ void Window::toggleFullscreen() {
     }
     else {
         toggleToFullscreenMode();
+    }
+}
+
+bool Window::getIsFullscreen() const {
+    if (glfwGetWindowMonitor(window)) {
+        return true;
+    }
+    else {
+        return false;
     }
 }
 

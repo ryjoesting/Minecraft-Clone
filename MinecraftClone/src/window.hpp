@@ -15,11 +15,11 @@ private:
 	GLFWmonitor* monitor;
 	const GLFWvidmode* mode;
 	GLFWwindow* window;
-
 	void toggleToWindowedMode();
 	void toggleToFullscreenMode();
 
 public:
+	float deltaTime, lastFrame;
 	Window(int majorVersion, int minorVersion);
 	~Window();
 	void setInputCallbacks();

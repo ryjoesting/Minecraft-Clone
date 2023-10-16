@@ -14,16 +14,18 @@
 std::unordered_map<int, std::function<void()>> Input::keyMap;
 
 int main() {
-    Window myWindow(3,3); //defaults to OpenGL core 3.3
-    glfwSetWindowUserPointer(myWindow.getWindowPointer(), &myWindow);
+    Window window(3,3); //defaults to OpenGL core 3.3
+    glfwSetWindowUserPointer(window.getWindowPointer(), &window);
     
     if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
     {
         std::cout << "Failed to initialize GLAD" << std::endl;
         return -1;
     }
-    Input input(&myWindow);
-    Shader shaderProgram("src/shaders/vertex.vert", "src/shaders/fragment.frag"); //took a while to figure the correct path.
+    Input input(&window);
+    Shader shaderProgram("src/shaders/vertex.vert", "src/shaders/fragment.frag");
+    Camera camera(glm::vec3(0.0f, 1.0f, 2.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+    input.SetCameraPtr(&camera);
     
     float vertices[] = {
         -0.5f, -0.5f, -0.5f,  0.0f, 0.0f,
@@ -152,11 +154,15 @@ int main() {
         glm::vec3(1.0f,  0.0f,  1.0f),
         glm::vec3(4.0f,  4.0f,  -4.0f),
     };
-
+    
     //Main render loop
     glEnable(GL_DEPTH_TEST);
-    while (!glfwWindowShouldClose(myWindow.getWindowPointer()))
+    while (!glfwWindowShouldClose(window.getWindowPointer()))
     {
+        float currentFrame = static_cast<float>(glfwGetTime());
+        window.deltaTime = currentFrame - window.lastFrame;
+        window.lastFrame = currentFrame;
+
         // Clear the color and depth buffers
         glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -167,16 +173,11 @@ int main() {
         glBindTexture(GL_TEXTURE_2D, texture2);
         shaderProgram.bind();
 
-        glm::mat4 model = glm::mat4(1.0f);
-        model = glm::rotate(model, (float) glfwGetTime() * glm::radians(55.0f), glm::vec3(0.5f, 1.0f, 0.0f));
-
-        glm::mat4 view = glm::mat4(1.0f);
-        view = glm::translate(view, glm::vec3(0.0f, 0.0f, -3.0f));
+        glm::mat4 view = camera.GetViewMatrix();
 
         glm::mat4 projection = glm::mat4(1.0f);
-        projection = glm::perspective(glm::radians(60.0f), (float) myWindow.getFramebufferWidth() / (float) myWindow.getFramebufferHeight(), 0.1f, 100.0f);
+        projection = glm::perspective(glm::radians(60.0f), (float) window.getFramebufferWidth() / (float) window.getFramebufferHeight(), 0.1f, 100.0f);
 
-        shaderProgram.uploadMat4("model", model);
         shaderProgram.uploadMat4("view", view);
         shaderProgram.uploadMat4("projection", projection);
 
@@ -193,10 +194,12 @@ int main() {
         
         glBindVertexArray(0);
         // Swap buffers and poll events, raise errors
-        myWindow.catchGLError();
-        glfwSwapBuffers(myWindow.getWindowPointer());
+        window.catchGLError();
+        glfwSwapBuffers(window.getWindowPointer());
         glfwPollEvents();
     }
+    // (TODO) Refactor main OpenGL loop
+    // https://stackoverflow.com/questions/71167313/opengl-render-loop
 	return 0;
 }
 

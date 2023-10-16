@@ -2,11 +2,16 @@
 #include <iostream>
 
 Input::Input(Window* inWindow) { //Input Constructor
-    inputWindow = inWindow;
+    windowPtr = inWindow;
+    cameraPtr = nullptr;
     bindAllKeyHandlers();
 }
 Input::~Input() {
     std::cout << "Destroyed Input object successfully\n";
+}
+
+void Input::SetCameraPtr(Camera* ptr) {
+    cameraPtr = ptr;
 }
 
 void Input::keyCallback(GLFWwindow* window, int key, int scancode, int action, int mods) {
