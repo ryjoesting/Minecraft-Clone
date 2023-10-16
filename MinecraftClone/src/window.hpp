@@ -20,6 +20,7 @@ private:
 
 public:
 	float deltaTime, lastFrame;
+	float cameraSpeed;
 	Window(int majorVersion, int minorVersion);
 	~Window();
 	void setInputCallbacks();

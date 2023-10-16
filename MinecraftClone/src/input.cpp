@@ -15,9 +15,9 @@ void Input::SetCameraPtr(Camera* ptr) {
 }
 
 void Input::keyCallback(GLFWwindow* window, int key, int scancode, int action, int mods) {
-    if (action == GLFW_PRESS) {
+    if (action == GLFW_REPEAT) {
         if (keyMap.find(key) != keyMap.end()) {
-            keyMap[key](); // Call the function
+            keyMap[key].first(); // Call the function
         }
         else {
             std::cout << "No function found for key " << key << std::endl;

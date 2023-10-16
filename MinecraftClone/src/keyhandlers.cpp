@@ -3,13 +3,13 @@
 #include <iostream>
 
 void Input::bindAllKeyHandlers() {
-	keyMap[GLFW_KEY_W] = [this]() { handleKeyW(); };
-	keyMap[GLFW_KEY_A] = [this]() { handleKeyA(); };
-	keyMap[GLFW_KEY_S] = [this]() { handleKeyS(); };
-    keyMap[GLFW_KEY_D] = [this]() { handleKeyD(); };
-	keyMap[GLFW_KEY_ESCAPE] = [this]() { handleKeyEsc(); };
-	keyMap[GLFW_KEY_F11] = [this]() { handleKeyF11(); };
-	keyMap[GLFW_KEY_LEFT_SHIFT] = [this]() { handleKeyLeftShift(); };
+	keyMap[GLFW_KEY_W] = std::make_pair([this]() { handleKeyW(); }, false);
+	keyMap[GLFW_KEY_A] = std::make_pair([this]() { handleKeyA(); }, false);
+	keyMap[GLFW_KEY_S] = std::make_pair([this]() { handleKeyS(); }, false);
+	keyMap[GLFW_KEY_D] = std::make_pair([this]() { handleKeyD(); }, false);
+	keyMap[GLFW_KEY_ESCAPE] = std::make_pair([this]() { handleKeyEsc(); }, false);
+	keyMap[GLFW_KEY_F11] = std::make_pair([this]() { handleKeyF11(); }, false);
+	keyMap[GLFW_KEY_LEFT_SHIFT] = std::make_pair([this]() { handleKeyLeftShift(); }, false);
 }
 
 void Input::handleKeyEsc() {
@@ -20,6 +20,7 @@ void Input::handleKeyF11() {
 }
 void Input::handleKeyW() {
 	std::cout << "Key W pressed\n";
+	cameraPtr->Position += windowPtr->cameraSpeed * cameraPtr->Front;
 }
 void Input::handleKeyA() {
 	std::cout << "Key A pressed\n";

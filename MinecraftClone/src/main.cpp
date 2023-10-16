@@ -11,7 +11,7 @@
 #include "window.hpp"
 #include "camera.hpp"
 
-std::unordered_map<int, std::function<void()>> Input::keyMap;
+std::unordered_map<int, std::pair<std::function<void()>, bool>> Input::keyMap;
 
 int main() {
     Window window(3,3); //defaults to OpenGL core 3.3
@@ -162,6 +162,7 @@ int main() {
         float currentFrame = static_cast<float>(glfwGetTime());
         window.deltaTime = currentFrame - window.lastFrame;
         window.lastFrame = currentFrame;
+        window.cameraSpeed = 5 * window.deltaTime;
 
         // Clear the color and depth buffers
         glClearColor(0.2f, 0.3f, 0.3f, 1.0f);

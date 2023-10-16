@@ -5,11 +5,10 @@
 #include <functional>
 #include <iostream>
 #include "camera.hpp"
-//using KeyCallback = void (*)(GLFWwindow*, int, int, int, int);
 
 class Input {
 private:
-    static std::unordered_map<int, std::function<void()>> keyMap;
+    static std::unordered_map<int, std::pair<std::function<void()>, bool>> keyMap;
     Window* windowPtr;
     Camera* cameraPtr;
 
