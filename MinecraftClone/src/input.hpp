@@ -19,6 +19,8 @@ private:
     void handleKeyEsc();
     void handleKeyF11();
     void handleKeyLeftShift();
+    void handleKeySpace();
+    void handleKeyF2();
     
 public:
     Input(Window* inWindow);

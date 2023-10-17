@@ -101,38 +101,17 @@ void Input::bindAllKeyHandlers() {
     keyMap[GLFW_KEY_A] = std::make_pair([this]() { handleKeyA(); }, false);
     keyMap[GLFW_KEY_S] = std::make_pair([this]() { handleKeyS(); }, false);
     keyMap[GLFW_KEY_D] = std::make_pair([this]() { handleKeyD(); }, false);
+    keyMap[GLFW_KEY_SPACE] = std::make_pair([this]() { handleKeySpace(); }, false);
+    keyMap[GLFW_KEY_LEFT_SHIFT] = std::make_pair([this]() { handleKeyLeftShift(); }, false);
     keyMap[GLFW_KEY_ESCAPE] = std::make_pair([this]() { handleKeyEsc(); }, false);
     keyMap[GLFW_KEY_F11] = std::make_pair([this]() { handleKeyF11(); }, false);
-    keyMap[GLFW_KEY_LEFT_SHIFT] = std::make_pair([this]() { handleKeyLeftShift(); }, false);
+    keyMap[GLFW_KEY_F2] = std::make_pair([this]() { handleKeyF2(); }, false);
 }
 
 void Input::handleKeyEsc() {
     glfwSetWindowShouldClose(windowPtr->getWindowPointer(), GL_TRUE);
 }
-void Input::handleKeyF11() {
-    windowPtr->toggleFullscreen();
-}
-void Input::handleKeyW() {
-    //std::cout << "Key W pressed\n";
-    cameraPtr->Position += cameraPtr->MovementSpeed * cameraPtr->Front;
-    cameraPtr->Position.y = 1.0f;
-}
-void Input::handleKeyA() {
-    //std::cout << "Key A pressed\n";
-    cameraPtr->Position -= cameraPtr->MovementSpeed * cameraPtr->Right;
-    cameraPtr->Position.y = 1.0f;
-}
-void Input::handleKeyS() {
-    //std::cout << "Key S pressed\n";
-    cameraPtr->Position -= cameraPtr->MovementSpeed * cameraPtr->Front;
-    cameraPtr->Position.y = 1.0f;
-}
-void Input::handleKeyD() {
-    //std::cout << "Key D pressed\n";
-    cameraPtr->Position += cameraPtr->MovementSpeed * cameraPtr->Right;
-    cameraPtr->Position.y = 1.0f;
-}
-void Input::handleKeyLeftShift() {
+void Input::handleKeyF2() {
     if (glfwGetInputMode(windowPtr->getWindowPointer(), GLFW_CURSOR) == GLFW_CURSOR_DISABLED) {
         glfwSetInputMode(windowPtr->getWindowPointer(), GLFW_CURSOR, GLFW_CURSOR_NORMAL);
     }
@@ -140,4 +119,37 @@ void Input::handleKeyLeftShift() {
         glfwSetInputMode(windowPtr->getWindowPointer(), GLFW_CURSOR, GLFW_CURSOR_DISABLED);
     }
     std::cout << "Toggled cursor mode\n";
+}
+void Input::handleKeyF11() {
+    windowPtr->toggleFullscreen();
+}
+void Input::handleKeyW() {
+    //std::cout << "Key W pressed\n";
+    float temp = cameraPtr->Position.y;
+    cameraPtr->Position += cameraPtr->MovementSpeed * cameraPtr->Front;
+    cameraPtr->Position.y = temp;
+}
+void Input::handleKeyA() {
+    //std::cout << "Key A pressed\n";
+    float temp = cameraPtr->Position.y;
+    cameraPtr->Position -= cameraPtr->MovementSpeed * cameraPtr->Right;
+    cameraPtr->Position.y = temp;
+}
+void Input::handleKeyS() {
+    //std::cout << "Key S pressed\n";
+    float temp = cameraPtr->Position.y;
+    cameraPtr->Position -= cameraPtr->MovementSpeed * cameraPtr->Front;
+    cameraPtr->Position.y = temp;
+}
+void Input::handleKeyD() {
+    //std::cout << "Key D pressed\n";
+    float temp = cameraPtr->Position.y;
+    cameraPtr->Position += cameraPtr->MovementSpeed * cameraPtr->Right;
+    cameraPtr->Position.y = temp;
+}
+void Input::handleKeySpace() {
+    cameraPtr->Position.y += cameraPtr->MovementSpeed;
+}
+void Input::handleKeyLeftShift() {
+    cameraPtr->Position.y -= cameraPtr->MovementSpeed;
 }
