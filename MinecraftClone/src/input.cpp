@@ -15,12 +15,30 @@ void Input::SetCameraPtr(Camera* ptr) {
 }
 
 void Input::keyCallback(GLFWwindow* window, int key, int scancode, int action, int mods) {
-    if (action == GLFW_REPEAT) {
-        if (keyMap.find(key) != keyMap.end()) {
-            keyMap[key].first(); // Call the function
-        }
-        else {
-            std::cout << "No function found for key " << key << std::endl;
+    switch (action) 
+    {
+        case GLFW_PRESS:
+            if (keyMap.find(key) != keyMap.end()) {
+                keyMap[key].second = true;
+            }
+            else {
+                std::cout << "No function found for key " << key << " (press)" << std::endl;
+            }
+            break;
+        case GLFW_RELEASE:
+            if (keyMap.find(key) != keyMap.end()) {
+                keyMap[key].second = false;
+            }
+            else {
+                std::cout << "No function found for key " << key << " (release)" << std::endl;
+            }
+            break;
+        default:
+            break;
+    }
+    for (const auto& entry : keyMap) {
+        if (entry.second.second == true) {
+            entry.second.first();
         }
     }
 }
@@ -89,12 +107,15 @@ void Input::handleKeyW() {
 }
 void Input::handleKeyA() {
     std::cout << "Key A pressed\n";
+    cameraPtr->Position -= windowPtr->cameraSpeed * cameraPtr->Right;
 }
 void Input::handleKeyS() {
     std::cout << "Key S pressed\n";
+    cameraPtr->Position -= windowPtr->cameraSpeed * cameraPtr->Front;
 }
 void Input::handleKeyD() {
     std::cout << "Key D pressed\n";
+    cameraPtr->Position += windowPtr->cameraSpeed * cameraPtr->Right;
 }
 void Input::handleKeyLeftShift() {
     if (glfwGetInputMode(windowPtr->getWindowPointer(), GLFW_CURSOR) == GLFW_CURSOR_DISABLED) {

@@ -162,7 +162,7 @@ int main() {
         float currentFrame = static_cast<float>(glfwGetTime());
         window.deltaTime = currentFrame - window.lastFrame;
         window.lastFrame = currentFrame;
-        window.cameraSpeed = 5 * window.deltaTime;
+        window.cameraSpeed = 50 * window.deltaTime;
 
         // Clear the color and depth buffers
         glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
