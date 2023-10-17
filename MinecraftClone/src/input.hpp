@@ -8,7 +8,7 @@
 
 class Input {
 private:
-    static std::unordered_map<int, std::pair<std::function<void()>, bool>> keyMap;
+    
     
     void bindAllKeyHandlers();
 
@@ -23,7 +23,7 @@ private:
 public:
     Input(Window* inWindow);
     ~Input();
-
+    static std::unordered_map<int, std::pair<std::function<void()>, bool>> keyMap;
     static Window* windowPtr;
     static Camera* cameraPtr;
     

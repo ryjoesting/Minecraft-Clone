@@ -176,7 +176,7 @@ int main() {
         float currentFrame = static_cast<float>(glfwGetTime());
         window.deltaTime = currentFrame - window.lastFrame;
         window.lastFrame = currentFrame;
-        window.cameraSpeed = 50 * window.deltaTime;
+        camera.MovementSpeed = 2.5 * window.deltaTime;
 
         // Clear the color and depth buffers
         glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
@@ -206,7 +206,11 @@ int main() {
 
             glDrawArrays(GL_TRIANGLES, 0, 36);
         }
-        
+        for (const auto& entry : Input::keyMap) {
+            if (entry.second.second == true) {
+                entry.second.first();
+            }
+        }
         glBindVertexArray(0);
         // Swap buffers and poll events, raise errors
         window.catchGLError();

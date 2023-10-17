@@ -34,11 +34,7 @@ void Input::keyCallback(GLFWwindow* window, int key, int scancode, int action, i
         default:
             break;
     }
-    for (const auto& entry : keyMap) {
-        if (entry.second.second == true) {
-            entry.second.first();
-        }
-    }
+    
 }
 
 void Input::mouseButtonCallback(GLFWwindow* window, int button, int action, int mods) {
@@ -118,22 +114,22 @@ void Input::handleKeyF11() {
 }
 void Input::handleKeyW() {
     //std::cout << "Key W pressed\n";
-    cameraPtr->Position += windowPtr->cameraSpeed * cameraPtr->Front;
+    cameraPtr->Position += cameraPtr->MovementSpeed * cameraPtr->Front;
     cameraPtr->Position.y = 1.0f;
 }
 void Input::handleKeyA() {
     //std::cout << "Key A pressed\n";
-    cameraPtr->Position -= windowPtr->cameraSpeed * cameraPtr->Right;
+    cameraPtr->Position -= cameraPtr->MovementSpeed * cameraPtr->Right;
     cameraPtr->Position.y = 1.0f;
 }
 void Input::handleKeyS() {
     //std::cout << "Key S pressed\n";
-    cameraPtr->Position -= windowPtr->cameraSpeed * cameraPtr->Front;
+    cameraPtr->Position -= cameraPtr->MovementSpeed * cameraPtr->Front;
     cameraPtr->Position.y = 1.0f;
 }
 void Input::handleKeyD() {
     //std::cout << "Key D pressed\n";
-    cameraPtr->Position += windowPtr->cameraSpeed * cameraPtr->Right;
+    cameraPtr->Position += cameraPtr->MovementSpeed * cameraPtr->Right;
     cameraPtr->Position.y = 1.0f;
 }
 void Input::handleKeyLeftShift() {
