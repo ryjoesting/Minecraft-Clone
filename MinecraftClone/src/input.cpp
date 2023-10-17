@@ -117,20 +117,24 @@ void Input::handleKeyF11() {
     windowPtr->toggleFullscreen();
 }
 void Input::handleKeyW() {
-    std::cout << "Key W pressed\n";
+    //std::cout << "Key W pressed\n";
     cameraPtr->Position += windowPtr->cameraSpeed * cameraPtr->Front;
+    cameraPtr->Position.y = 1.0f;
 }
 void Input::handleKeyA() {
-    std::cout << "Key A pressed\n";
+    //std::cout << "Key A pressed\n";
     cameraPtr->Position -= windowPtr->cameraSpeed * cameraPtr->Right;
+    cameraPtr->Position.y = 1.0f;
 }
 void Input::handleKeyS() {
-    std::cout << "Key S pressed\n";
+    //std::cout << "Key S pressed\n";
     cameraPtr->Position -= windowPtr->cameraSpeed * cameraPtr->Front;
+    cameraPtr->Position.y = 1.0f;
 }
 void Input::handleKeyD() {
-    std::cout << "Key D pressed\n";
+    //std::cout << "Key D pressed\n";
     cameraPtr->Position += windowPtr->cameraSpeed * cameraPtr->Right;
+    cameraPtr->Position.y = 1.0f;
 }
 void Input::handleKeyLeftShift() {
     if (glfwGetInputMode(windowPtr->getWindowPointer(), GLFW_CURSOR) == GLFW_CURSOR_DISABLED) {
