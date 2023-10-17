@@ -79,11 +79,13 @@ void Input::cursorPositionCallback(GLFWwindow* window, double xpos, double ypos)
     Input::windowPtr->setMousePosY(ypos);
     double xoffset = xpos - Input::windowPtr->previous_mousePos_x;
     double yoffset = ypos - Input::windowPtr->previous_mousePos_y;
+    Input::windowPtr->previous_mousePos_x = xpos;
+    Input::windowPtr->previous_mousePos_y = ypos;
     xoffset *= Input::cameraPtr->MouseSensitivity;
     yoffset *= Input::cameraPtr->MouseSensitivity;
 
     Input::cameraPtr->Yaw += (float)xoffset;
-    Input::cameraPtr->Pitch += (float)yoffset;
+    Input::cameraPtr->Pitch += (float)yoffset * -1;
     
     // make sure that when pitch is out of bounds, screen doesn't get flipped
     if (Input::cameraPtr->Pitch > 89.0f)
