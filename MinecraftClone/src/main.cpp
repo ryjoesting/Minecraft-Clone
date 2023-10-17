@@ -155,6 +155,8 @@ int main() {
         glm::vec3(4.0f,  4.0f,  -4.0f),
     };
     
+    const float FOV = 70.0f;
+
     //Main render loop
     glEnable(GL_DEPTH_TEST);
     while (!glfwWindowShouldClose(window.getWindowPointer()))
@@ -177,7 +179,7 @@ int main() {
         glm::mat4 view = camera.GetViewMatrix();
 
         glm::mat4 projection = glm::mat4(1.0f);
-        projection = glm::perspective(glm::radians(60.0f), (float) window.getFramebufferWidth() / (float) window.getFramebufferHeight(), 0.1f, 100.0f);
+        projection = glm::perspective(glm::radians(FOV), (float) window.getFramebufferWidth() / (float) window.getFramebufferHeight(), 0.1f, 100.0f);
 
         shaderProgram.uploadMat4("view", view);
         shaderProgram.uploadMat4("projection", projection);

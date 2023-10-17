@@ -20,6 +20,8 @@ private:
 
 public:
 	float deltaTime, lastFrame;
+	double previous_mousePos_x;
+	double previous_mousePos_y;
 	float cameraSpeed;
 	Window(int majorVersion, int minorVersion);
 	~Window();

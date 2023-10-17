@@ -13,6 +13,7 @@ Window::Window(int majorVersion, int minorVersion)
     mode(nullptr),
     window(nullptr),
     mousePos_x(0), mousePos_y(0), 
+    previous_mousePos_x(0), previous_mousePos_y(0),
     deltaTime(0.0f), lastFrame(0.0f)
     {
 

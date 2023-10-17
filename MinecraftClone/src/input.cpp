@@ -79,7 +79,22 @@ void Input::cursorPositionCallback(GLFWwindow* window, double xpos, double ypos)
     Window* userWindow = static_cast<Window*>(glfwGetWindowUserPointer(window));
     userWindow->setMousePosX(xpos);
     userWindow->setMousePosY(ypos);
-    //std::cout << "Mouse X: " << userWindow->getMousePosX() << "  Mouse Y: " << userWindow->getMousePosY() << std::endl;
+    double xoffset = xpos - userWindow->previous_mousePos_x;
+    double yoffset = ypos - userWindow->previous_mousePos_y;
+    xoffset *= cameraPtr->MouseSensitivity;
+    yoffset *= cameraPtr->MouseSensitivity;
+
+    cameraPtr->Yaw += xoffset;
+    cameraPtr->Pitch += yoffset;
+
+    // make sure that when pitch is out of bounds, screen doesn't get flipped
+    if (cameraPtr->Pitch > 89.0f)
+        cameraPtr->Pitch = 89.0f;
+    if (cameraPtr->Pitch < -89.0f)
+        cameraPtr->Pitch = -89.0f;
+
+    // update Front, Right and Up Vectors using the updated Euler angles
+    cameraPtr->updateCameraVectors();
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
