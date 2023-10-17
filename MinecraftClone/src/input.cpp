@@ -1,9 +1,7 @@
 #include "input.hpp"
 #include <iostream>
 
-Input::Input(Window* inWindow) { //Input Constructor
-    windowPtr = inWindow;
-    cameraPtr = nullptr;
+Input::Input(Window* inWindow) {
     bindAllKeyHandlers();
 }
 Input::~Input() {
@@ -76,22 +74,22 @@ void Input::framebufferSizeCallback(GLFWwindow* window, int width, int height) {
 }
 
 void Input::cursorPositionCallback(GLFWwindow* window, double xpos, double ypos) {
-    Window* userWindow = static_cast<Window*>(glfwGetWindowUserPointer(window));
-    userWindow->setMousePosX(xpos);
-    userWindow->setMousePosY(ypos);
-    double xoffset = xpos - userWindow->previous_mousePos_x;
-    double yoffset = ypos - userWindow->previous_mousePos_y;
-    xoffset *= cameraPtr->MouseSensitivity;
-    yoffset *= cameraPtr->MouseSensitivity;
+    //Window* userWindow = static_cast<Window*>(glfwGetWindowUserPointer(window));
+    Input::windowPtr->setMousePosX(xpos);
+    Input::windowPtr->setMousePosY(ypos);
+    double xoffset = xpos - Input::windowPtr->previous_mousePos_x;
+    double yoffset = ypos - Input::windowPtr->previous_mousePos_y;
+    xoffset *= Input::cameraPtr->MouseSensitivity;
+    yoffset *= Input::cameraPtr->MouseSensitivity;
 
-    cameraPtr->Yaw += xoffset;
-    cameraPtr->Pitch += yoffset;
-
+    Input::cameraPtr->Yaw += (float)xoffset;
+    Input::cameraPtr->Pitch += (float)yoffset;
+    
     // make sure that when pitch is out of bounds, screen doesn't get flipped
-    if (cameraPtr->Pitch > 89.0f)
-        cameraPtr->Pitch = 89.0f;
-    if (cameraPtr->Pitch < -89.0f)
-        cameraPtr->Pitch = -89.0f;
+    if (Input::cameraPtr->Pitch > 89.0f)
+        Input::cameraPtr->Pitch = 89.0f;
+    if (Input::cameraPtr->Pitch < -89.0f)
+        Input::cameraPtr->Pitch = -89.0f;
 
     // update Front, Right and Up Vectors using the updated Euler angles
     cameraPtr->updateCameraVectors();

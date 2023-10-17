@@ -9,9 +9,7 @@
 class Input {
 private:
     static std::unordered_map<int, std::pair<std::function<void()>, bool>> keyMap;
-    static Window* windowPtr;
-    static Camera* cameraPtr;
-
+    
     void bindAllKeyHandlers();
 
     void handleKeyW();
@@ -25,6 +23,9 @@ private:
 public:
     Input(Window* inWindow);
     ~Input();
+
+    static Window* windowPtr;
+    static Camera* cameraPtr;
     
     void SetCameraPtr(Camera* ptr);
     static void keyCallback(GLFWwindow* window, int key, int scancode, int action, int mods);
