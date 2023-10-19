@@ -163,7 +163,6 @@
   <ItemGroup>
     <ClCompile Include="..\Dependencies\GLAD\src\glad.c" />
     <ClCompile Include="src\camera.cpp" />
-    <ClCompile Include="src\cube.cpp" />
     <ClCompile Include="src\shader.cpp" />
     <ClCompile Include="src\input.cpp" />
     <ClCompile Include="src\main.cpp" />
@@ -172,7 +171,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\camera.hpp" />
-    <ClInclude Include="src\cube.hpp" />
     <ClInclude Include="src\shader.hpp" />
     <ClInclude Include="src\input.hpp" />
     <ClInclude Include="src\shaders\vertex.vert" />
@@ -180,6 +178,7 @@
     <ClInclude Include="src\window.hpp" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="src\resources\models\block\grass_block.json" />
     <None Include="src\shaders\fragment.frag" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
