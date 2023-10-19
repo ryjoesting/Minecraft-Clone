@@ -10,6 +10,7 @@
 #include "shader.hpp"
 #include "window.hpp"
 #include "camera.hpp"
+#include "block.hpp"
 
 std::unordered_map<int, std::pair<std::function<void()>, bool>> Input::keyMap;
 
