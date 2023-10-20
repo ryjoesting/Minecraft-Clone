@@ -1,18 +1,17 @@
-#include <cstdio>
+#include <fstream>
 #include <iostream>
-#include "rapidjson/document.h" 
-#include "rapidjson/filereadstream.h" 
-#include "rapidjson/rapidjson.h"
 #include "block.hpp"
 #include "glfw/glfw3.h"
 #include "vendor/stb_image/stb_image.h"
+#include "nlohmann/json.hpp"
 
 Block::Block(BlockID id, glm::vec3 position) : ID(id), Position(position) {
-	rapidjson::Document doc;
+	
 	switch (id)
 	{
 	case GRASS:
-		doc.Parse()
+		GetJSONFromFile("src/resources/models/block/grass_block.json");
+		std::cout << JSON["textures"]["top"] << std::endl;
 		break;
 	case DIRT:
 		break;
@@ -28,30 +27,11 @@ Block::Block(BlockID id, glm::vec3 position) : ID(id), Position(position) {
 		break;
 	}
 }
-rapidjson::Document Block::ReadJSON(std::string filepath) {
-    FILE* fp = fopen(filepath.c_str(), "rb");
-    if (!fp) {
-        std::cerr << "Error: unable to open file"
-            << std::endl;
-        return NULL;
-    }
 
-    char readBuffer[1024];
-    rapidjson::FileReadStream is(fp, readBuffer,
-        sizeof(readBuffer));
-
-    // Parse the JSON document 
-    rapidjson::Document doc;
-    doc.ParseStream(is);
-
-    // Check if the document is valid 
-    if (doc.HasParseError()) {
-        std::cerr << "Error: failed to parse JSON document"
-            << std::endl;
-        fclose(fp);
-        return NULL;
-    }
-
-    // Close the file 
-    fclose(fp);
+void Block::GetJSONFromFile(std::string filepath) {
+	std::ifstream f(filepath);
+	if (f) { std::cout << "Filepath found for " << filepath << std::endl; }
+	else { throw new std::exception("JSON filepath not found"); }
+	json data = json::parse(f);
+	JSON = data;
 }
