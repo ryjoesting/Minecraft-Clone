@@ -2,7 +2,7 @@
 #include "input.hpp"
 #include "globals.hpp"
 
-Input::Input(Window* inWindow) {
+Input::Input() {
     bindAllKeyHandlers();
 }
 Input::~Input() {
@@ -17,16 +17,16 @@ void Input::keyCallback(GLFWwindow* window, int key, int scancode, int action, i
     switch (action) 
     {
         case GLFW_PRESS:
-            if (keyMap.find(key) != keyMap.end()) {
-                keyMap[key].second = true;
+            if (Globals::keyMap.find(key) != Globals::keyMap.end()) {
+                Globals::keyMap[key].second = true;
             }
             else {
                 std::cout << "No function found for key " << key << " (press)" << std::endl;
             }
             break;
         case GLFW_RELEASE:
-            if (keyMap.find(key) != keyMap.end()) {
-                keyMap[key].second = false;
+            if (Globals::keyMap.find(key) != Globals::keyMap.end()) {
+                Globals::keyMap[key].second = false;
             }
             else {
                 std::cout << "No function found for key " << key << " (release)" << std::endl;
@@ -98,15 +98,15 @@ void Input::cursorPositionCallback(GLFWwindow* window, double xpos, double ypos)
 // Begin keyhandlers
 
 void Input::bindAllKeyHandlers() {
-    keyMap[GLFW_KEY_W] = std::make_pair([this]() { handleKeyW(); }, false);
-    keyMap[GLFW_KEY_A] = std::make_pair([this]() { handleKeyA(); }, false);
-    keyMap[GLFW_KEY_S] = std::make_pair([this]() { handleKeyS(); }, false);
-    keyMap[GLFW_KEY_D] = std::make_pair([this]() { handleKeyD(); }, false);
-    keyMap[GLFW_KEY_SPACE] = std::make_pair([this]() { handleKeySpace(); }, false);
-    keyMap[GLFW_KEY_LEFT_SHIFT] = std::make_pair([this]() { handleKeyLeftShift(); }, false);
-    keyMap[GLFW_KEY_ESCAPE] = std::make_pair([this]() { handleKeyEsc(); }, false);
-    keyMap[GLFW_KEY_F11] = std::make_pair([this]() { handleKeyF11(); }, false);
-    keyMap[GLFW_KEY_F2] = std::make_pair([this]() { handleKeyF2(); }, false);
+    Globals::keyMap[GLFW_KEY_W] = std::make_pair([this]() { handleKeyW(); }, false);
+    Globals::keyMap[GLFW_KEY_A] = std::make_pair([this]() { handleKeyA(); }, false);
+    Globals::keyMap[GLFW_KEY_S] = std::make_pair([this]() { handleKeyS(); }, false);
+    Globals::keyMap[GLFW_KEY_D] = std::make_pair([this]() { handleKeyD(); }, false);
+    Globals::keyMap[GLFW_KEY_SPACE] = std::make_pair([this]() { handleKeySpace(); }, false);
+    Globals::keyMap[GLFW_KEY_LEFT_SHIFT] = std::make_pair([this]() { handleKeyLeftShift(); }, false);
+    Globals::keyMap[GLFW_KEY_ESCAPE] = std::make_pair([this]() { handleKeyEsc(); }, false);
+    Globals::keyMap[GLFW_KEY_F11] = std::make_pair([this]() { handleKeyF11(); }, false);
+    Globals::keyMap[GLFW_KEY_F2] = std::make_pair([this]() { handleKeyF2(); }, false);
 }
 
 void Input::handleKeyEsc() {

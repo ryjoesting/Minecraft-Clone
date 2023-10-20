@@ -14,9 +14,10 @@
 #include "globals.hpp"
 
 // Declaring globals
-std::unordered_map<int, std::pair<std::function<void()>, bool>> Input::keyMap;
+std::unordered_map<int, std::pair<std::function<void()>, bool>> Globals::keyMap;
 Camera* Globals::cameraPtr = nullptr;
 Window* Globals::windowPtr = nullptr;
+Shader* Globals::shaderPtr = nullptr;
 
 int main() {
     Window window(3,3); //defaults to OpenGL core 3.3
@@ -27,11 +28,12 @@ int main() {
         std::cout << "Failed to initialize GLAD" << std::endl;
         return -1;
     }
-    Input input(&window);
-    Shader shaderProgram("src/shaders/vertex.vert", "src/shaders/fragment.frag");
+    Input input();
+    Shader shader("src/shaders/vertex.vert", "src/shaders/fragment.frag");
     Camera camera(glm::vec3(0.0f, 1.0f, 2.0f), glm::vec3(0.0f, 1.0f, 0.0f));
     Globals::cameraPtr = &camera;
     Globals::windowPtr = &window;
+    Globals::shaderPtr = &shader;
 
     Block block(GRASS, glm::vec3(0.0f, 0.0f, 0.0f));
     
@@ -126,8 +128,8 @@ int main() {
     }
     stbi_image_free(data);
 
-    shaderProgram.bind();
-    shaderProgram.uploadInt("texture1", 0);
+    shader.bind();
+    shader.uploadInt("texture1", 0);
 
     glm::vec3 cubePositions[] = {
         glm::vec3(0.0f,  0.0f,  0.0f),
@@ -158,7 +160,7 @@ int main() {
         float currentFrame = static_cast<float>(glfwGetTime());
         window.deltaTime = currentFrame - window.lastFrame;
         window.lastFrame = currentFrame;
-        camera.MovementSpeed = 2.5 * window.deltaTime;
+        camera.MovementSpeed = 2.5 * (float)window.deltaTime;
 
         // Clear the color and depth buffers
         glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
@@ -166,15 +168,15 @@ int main() {
 
         glActiveTexture(GL_TEXTURE0);
         glBindTexture(GL_TEXTURE_2D, texture1);
-        shaderProgram.bind();
+        shader.bind();
 
         glm::mat4 view = camera.GetViewMatrix();
 
         glm::mat4 projection = glm::mat4(1.0f);
         projection = glm::perspective(glm::radians(FOV), (float) window.getFramebufferWidth() / (float) window.getFramebufferHeight(), 0.1f, 100.0f);
 
-        shaderProgram.uploadMat4("view", view);
-        shaderProgram.uploadMat4("projection", projection);
+        shader.uploadMat4("view", view);
+        shader.uploadMat4("projection", projection);
 
 
         glBindVertexArray(VAO);
@@ -182,11 +184,11 @@ int main() {
         {
             glm::mat4 model = glm::mat4(1.0f);
             model = glm::translate(model, cubePositions[i]);
-            shaderProgram.uploadMat4("model", model);
+            shader.uploadMat4("model", model);
 
             glDrawArrays(GL_TRIANGLES, 0, 36);
         }
-        for (const auto& entry : Input::keyMap) {
+        for (const auto& entry : Globals::keyMap) {
             if (entry.second.second == true) {
                 entry.second.first();
             }
