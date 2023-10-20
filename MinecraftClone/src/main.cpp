@@ -14,7 +14,7 @@
 #include "globals.hpp"
 
 // Declaring globals
-std::unordered_map<int, std::pair<std::function<void()>, bool>> Globals::keyMap;
+std::unordered_map<int, std::pair<std::function<void()>, bool>> Input::keyMap;
 Camera* Globals::cameraPtr = nullptr;
 Window* Globals::windowPtr = nullptr;
 Shader* Globals::shaderPtr = nullptr;
@@ -188,7 +188,7 @@ int main() {
 
             glDrawArrays(GL_TRIANGLES, 0, 36);
         }
-        for (const auto& entry : Globals::keyMap) {
+        for (const auto& entry : Input::keyMap) {
             if (entry.second.second == true) {
                 entry.second.first();
             }

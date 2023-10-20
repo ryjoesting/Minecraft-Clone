@@ -11,10 +11,21 @@ private:
     
     void bindAllKeyHandlers();
 
+    void handleKeyW();
+    void handleKeyA();
+    void handleKeyS();
+    void handleKeyD();
+    void handleKeyEsc();
+    void handleKeyF11();
+    void handleKeyLeftShift();
+    void handleKeySpace();
+    void handleKeyF2();
 public:
     Input();
     ~Input();
     
+    static std::unordered_map<int, std::pair<std::function<void()>, bool>> keyMap;
+
     void SetCameraPtr(Camera* ptr);
     static void keyCallback(GLFWwindow* window, int key, int scancode, int action, int mods);
     static void mouseButtonCallback(GLFWwindow* window, int button, int action, int mods);
@@ -22,13 +33,5 @@ public:
     static void framebufferSizeCallback(GLFWwindow* window, int width, int height);
     static void cursorPositionCallback(GLFWwindow* window, double xpos, double ypos);
 
-    static void handleKeyW();
-    static void handleKeyA();
-    static void handleKeyS();
-    static void handleKeyD();
-    static void handleKeyEsc();
-    static void handleKeyF11();
-    static void handleKeyLeftShift();
-    static void handleKeySpace();
-    static void handleKeyF2();
+    
 };
