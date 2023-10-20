@@ -11,11 +11,12 @@
 #include "window.hpp"
 #include "camera.hpp"
 #include "block.hpp"
+#include "globals.hpp"
 
+// Declaring globals
 std::unordered_map<int, std::pair<std::function<void()>, bool>> Input::keyMap;
-
-Camera* Input::cameraPtr = nullptr;
-Window* Input::windowPtr = nullptr;
+Camera* Globals::cameraPtr = nullptr;
+Window* Globals::windowPtr = nullptr;
 
 int main() {
     Window window(3,3); //defaults to OpenGL core 3.3
@@ -29,8 +30,8 @@ int main() {
     Input input(&window);
     Shader shaderProgram("src/shaders/vertex.vert", "src/shaders/fragment.frag");
     Camera camera(glm::vec3(0.0f, 1.0f, 2.0f), glm::vec3(0.0f, 1.0f, 0.0f));
-    Input::cameraPtr = &camera;
-    Input::windowPtr = &window;
+    Globals::cameraPtr = &camera;
+    Globals::windowPtr = &window;
 
     Block block(GRASS, glm::vec3(0.0f, 0.0f, 0.0f));
     

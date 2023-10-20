@@ -1,5 +1,6 @@
-#include "input.hpp"
 #include <iostream>
+#include "input.hpp"
+#include "globals.hpp"
 
 Input::Input(Window* inWindow) {
     bindAllKeyHandlers();
@@ -9,7 +10,7 @@ Input::~Input() {
 }
 
 void Input::SetCameraPtr(Camera* ptr) {
-    cameraPtr = ptr;
+    Globals::cameraPtr = ptr;
 }
 
 void Input::keyCallback(GLFWwindow* window, int key, int scancode, int action, int mods) {
@@ -71,26 +72,26 @@ void Input::framebufferSizeCallback(GLFWwindow* window, int width, int height) {
 
 void Input::cursorPositionCallback(GLFWwindow* window, double xpos, double ypos) {
     //Window* userWindow = static_cast<Window*>(glfwGetWindowUserPointer(window));
-    Input::windowPtr->setMousePosX(xpos);
-    Input::windowPtr->setMousePosY(ypos);
-    double xoffset = xpos - Input::windowPtr->previous_mousePos_x;
-    double yoffset = ypos - Input::windowPtr->previous_mousePos_y;
-    Input::windowPtr->previous_mousePos_x = xpos;
-    Input::windowPtr->previous_mousePos_y = ypos;
-    xoffset *= Input::cameraPtr->MouseSensitivity;
-    yoffset *= Input::cameraPtr->MouseSensitivity;
+    Globals::windowPtr->setMousePosX(xpos);
+    Globals::windowPtr->setMousePosY(ypos);
+    double xoffset = xpos - Globals::windowPtr->previous_mousePos_x;
+    double yoffset = ypos - Globals::windowPtr->previous_mousePos_y;
+    Globals::windowPtr->previous_mousePos_x = xpos;
+    Globals::windowPtr->previous_mousePos_y = ypos;
+    xoffset *= Globals::cameraPtr->MouseSensitivity;
+    yoffset *= Globals::cameraPtr->MouseSensitivity;
 
-    Input::cameraPtr->Yaw += (float)xoffset;
-    Input::cameraPtr->Pitch += (float)yoffset * -1;
+    Globals::cameraPtr->Yaw += (float)xoffset;
+    Globals::cameraPtr->Pitch += (float)yoffset * -1;
     
     // make sure that when pitch is out of bounds, screen doesn't get flipped
-    if (Input::cameraPtr->Pitch > 89.0f)
-        Input::cameraPtr->Pitch = 89.0f;
-    if (Input::cameraPtr->Pitch < -89.0f)
-        Input::cameraPtr->Pitch = -89.0f;
+    if (Globals::cameraPtr->Pitch > 89.0f)
+        Globals::cameraPtr->Pitch = 89.0f;
+    if (Globals::cameraPtr->Pitch < -89.0f)
+        Globals::cameraPtr->Pitch = -89.0f;
 
     // update Front, Right and Up Vectors using the updated Euler angles
-    cameraPtr->updateCameraVectors();
+    Globals::cameraPtr->updateCameraVectors();
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
@@ -109,47 +110,47 @@ void Input::bindAllKeyHandlers() {
 }
 
 void Input::handleKeyEsc() {
-    glfwSetWindowShouldClose(windowPtr->getWindowPointer(), GL_TRUE);
+    glfwSetWindowShouldClose(Globals::windowPtr->getWindowPointer(), GL_TRUE);
 }
 void Input::handleKeyF2() {
-    if (glfwGetInputMode(windowPtr->getWindowPointer(), GLFW_CURSOR) == GLFW_CURSOR_DISABLED) {
-        glfwSetInputMode(windowPtr->getWindowPointer(), GLFW_CURSOR, GLFW_CURSOR_NORMAL);
+    if (glfwGetInputMode(Globals::windowPtr->getWindowPointer(), GLFW_CURSOR) == GLFW_CURSOR_DISABLED) {
+        glfwSetInputMode(Globals::windowPtr->getWindowPointer(), GLFW_CURSOR, GLFW_CURSOR_NORMAL);
     }
-    else if (glfwGetInputMode(windowPtr->getWindowPointer(), GLFW_CURSOR) == GLFW_CURSOR_NORMAL) {
-        glfwSetInputMode(windowPtr->getWindowPointer(), GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+    else if (glfwGetInputMode(Globals::windowPtr->getWindowPointer(), GLFW_CURSOR) == GLFW_CURSOR_NORMAL) {
+        glfwSetInputMode(Globals::windowPtr->getWindowPointer(), GLFW_CURSOR, GLFW_CURSOR_DISABLED);
     }
     std::cout << "Toggled cursor mode\n";
 }
 void Input::handleKeyF11() {
-    windowPtr->toggleFullscreen();
+    Globals::windowPtr->toggleFullscreen();
 }
 void Input::handleKeyW() {
     //std::cout << "Key W pressed\n";
-    float temp = cameraPtr->Position.y;
-    cameraPtr->Position += cameraPtr->MovementSpeed * cameraPtr->Front;
-    cameraPtr->Position.y = temp;
+    float temp = Globals::cameraPtr->Position.y;
+    Globals::cameraPtr->Position += Globals::cameraPtr->MovementSpeed * Globals::cameraPtr->Front;
+    Globals::cameraPtr->Position.y = temp;
 }
 void Input::handleKeyA() {
     //std::cout << "Key A pressed\n";
-    float temp = cameraPtr->Position.y;
-    cameraPtr->Position -= cameraPtr->MovementSpeed * cameraPtr->Right;
-    cameraPtr->Position.y = temp;
+    float temp = Globals::cameraPtr->Position.y;
+    Globals::cameraPtr->Position -= Globals::cameraPtr->MovementSpeed * Globals::cameraPtr->Right;
+    Globals::cameraPtr->Position.y = temp;
 }
 void Input::handleKeyS() {
     //std::cout << "Key S pressed\n";
-    float temp = cameraPtr->Position.y;
-    cameraPtr->Position -= cameraPtr->MovementSpeed * cameraPtr->Front;
-    cameraPtr->Position.y = temp;
+    float temp = Globals::cameraPtr->Position.y;
+    Globals::cameraPtr->Position -= Globals::cameraPtr->MovementSpeed * Globals::cameraPtr->Front;
+    Globals::cameraPtr->Position.y = temp;
 }
 void Input::handleKeyD() {
     //std::cout << "Key D pressed\n";
-    float temp = cameraPtr->Position.y;
-    cameraPtr->Position += cameraPtr->MovementSpeed * cameraPtr->Right;
-    cameraPtr->Position.y = temp;
+    float temp = Globals::cameraPtr->Position.y;
+    Globals::cameraPtr->Position += Globals::cameraPtr->MovementSpeed * Globals::cameraPtr->Right;
+    Globals::cameraPtr->Position.y = temp;
 }
 void Input::handleKeySpace() {
-    cameraPtr->Position.y += cameraPtr->MovementSpeed;
+    Globals::cameraPtr->Position.y += Globals::cameraPtr->MovementSpeed;
 }
 void Input::handleKeyLeftShift() {
-    cameraPtr->Position.y -= cameraPtr->MovementSpeed;
+    Globals::cameraPtr->Position.y -= Globals::cameraPtr->MovementSpeed;
 }
