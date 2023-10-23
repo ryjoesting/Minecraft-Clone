@@ -12,12 +12,14 @@
 #include "camera.hpp"
 #include "block.hpp"
 #include "globals.hpp"
+#include "scene.hpp"
 
 // Declaring globals
 std::unordered_map<int, std::pair<std::function<void()>, bool>> Input::keyMap;
 Camera* Globals::cameraPtr = nullptr;
 Window* Globals::windowPtr = nullptr;
 Shader* Globals::shaderPtr = nullptr;
+Scene* Globals::scenePtr = nullptr;
 
 int main() {
     Window window(3,3); //defaults to OpenGL core 3.3
@@ -29,6 +31,7 @@ int main() {
         return -1;
     }
     Input input;
+    Scene scene;
     Shader shader("src/shaders/vertex.vert", "src/shaders/fragment.frag");
     Camera camera(glm::vec3(0.0f, 1.0f, 2.0f), glm::vec3(0.0f, 1.0f, 0.0f));
     Globals::cameraPtr = &camera;
@@ -157,14 +160,7 @@ int main() {
     glEnable(GL_DEPTH_TEST);
     while (!glfwWindowShouldClose(window.getWindowPointer()))
     {
-        float currentFrame = static_cast<float>(glfwGetTime());
-        window.deltaTime = currentFrame - window.lastFrame;
-        window.lastFrame = currentFrame;
-        camera.MovementSpeed = 2.5 * (float)window.deltaTime;
-
-        // Clear the color and depth buffers
-        glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
-        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+        scene.Render();
 
         glActiveTexture(GL_TEXTURE0);
         glBindTexture(GL_TEXTURE_2D, texture1);

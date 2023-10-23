@@ -174,7 +174,7 @@
     <ClInclude Include="src\block.hpp" />
     <ClInclude Include="src\camera.hpp" />
     <ClInclude Include="src\globals.hpp" />
-    <ClInclude Include="src\render.hpp" />
+    <ClInclude Include="src\scene.hpp" />
     <ClInclude Include="src\shader.hpp" />
     <ClInclude Include="src\input.hpp" />
     <ClInclude Include="src\shaders\vertex.vert" />

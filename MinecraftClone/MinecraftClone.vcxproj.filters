@@ -65,7 +65,7 @@
     <ClInclude Include="src\block.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\render.hpp">
+    <ClInclude Include="src\scene.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\globals.hpp">
