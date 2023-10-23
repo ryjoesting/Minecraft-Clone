@@ -28,7 +28,7 @@ int main() {
         std::cout << "Failed to initialize GLAD" << std::endl;
         return -1;
     }
-    Input input();
+    Input input;
     Shader shader("src/shaders/vertex.vert", "src/shaders/fragment.frag");
     Camera camera(glm::vec3(0.0f, 1.0f, 2.0f), glm::vec3(0.0f, 1.0f, 0.0f));
     Globals::cameraPtr = &camera;
